@@ -35,12 +35,21 @@ steps:
   
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['rollout', 'restart', 'deployment/nginx-deployment']
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast2'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-prod-cluster'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['rollout', 'restart', 'deployment/db-deployment']
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast2'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-prod-cluster'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['rollout', 'restart', 'deployment/web1-deployment']
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast2'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-prod-cluster'
 
 images:
   - 'gcr.io/socialmapp-f1941/db-pod:latest'

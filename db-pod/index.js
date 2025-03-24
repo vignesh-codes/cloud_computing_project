@@ -4,13 +4,15 @@ const { Storage } = require("@google-cloud/storage");
 const cors = require("cors");
 const app = express();
 
+// Allow specific origin
 const corsOptions = {
-	origin: "https://socialm.duckdns.org", // Explicitly allow your frontend
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-	allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-	credentials: true, // Allow credentials (if needed)
-};
+	origin: 'https://socialm.duckdns.org', // Replace with your frontend URL
+	methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+	allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+	credentials: true,  // Ensure credentials are included in the request
+  };
 
+// Enable CORS
 app.use(cors(corsOptions));
 
 // Handle preflight requests explicitly
