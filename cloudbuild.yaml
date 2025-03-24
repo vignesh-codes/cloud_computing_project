@@ -21,23 +21,25 @@ steps:
       - 'db-deployment.yaml'
       - '-f'
       - 'db-service.yaml'
-      - '-f'
-      - 'nginx-deployment.yaml'
-      - '-f'
-      - 'nginx-service.yaml'
-      - '-f'
-      - 'nginx-ingress.yaml'
+      # - '-f'
+      # - 'nginx-deployment.yaml'
+      # - '-f'
+      # - 'nginx-service.yaml'
+      # - '-f'
+      # - 'nginx-ingress.yaml'
       - '-f'
       - 'web1-deployment.yaml'
+      - '-f'
+      - 'web-service.yaml'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast2'
       - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-prod-cluster'
   
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['rollout', 'restart', 'deployment/nginx-deployment']
-    env:
-      - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast2'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-prod-cluster'
+  # - name: 'gcr.io/cloud-builders/kubectl'
+  #   args: ['rollout', 'restart', 'deployment/nginx-deployment']
+  #   env:
+  #     - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast2'
+  #     - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-prod-cluster'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['rollout', 'restart', 'deployment/db-deployment']
