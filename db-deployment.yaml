@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: db-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: db
+    template:
+        metadata:
+            labels:
+                app: db
+        spec:
+            nodeSelector:
+                kubernetes.io/hostname: gke-socialmedia-prod-clu-default-pool-cdcc1855-93cl # Replace with the name of Node 3
+            containers:
+                - name: db
+                  image: gcr.io/socialmapp-f1941/db-pod:latest
+                  ports:
+                      - containerPort: 8080
+                  env:
+                      - name: GOOGLE_APPLICATION_CREDENTIALS
+                        value: "/app/key.json"
+                  volumeMounts:
+                      - name: service-account-credentials
+                        mountPath: "/app/key.json"
+                        subPath: key.json
+            volumes:
+                - name: service-account-credentials
+                  secret:
+                      secretName: db-service-account-key
