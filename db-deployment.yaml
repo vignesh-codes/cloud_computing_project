@@ -24,8 +24,8 @@ spec:
                         value: "/app/key.json"
                   volumeMounts:
                       - name: service-account-credentials
-                        mountPath: "/app/key.json"
-                        subPath: key.json
+                        mountPath: "/app/firebase-service-account-key.json"
+                        subPath: firebase-service-account-key.json
             volumes:
                 - name: service-account-credentials
                   secret:
