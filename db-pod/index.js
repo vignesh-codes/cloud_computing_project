@@ -7,7 +7,7 @@ const app = express();
 // Allow specific origin
 
 const corsOptions = {
-  origin: "https://socialm.duckdns.org", // Allow the frontend domain
+  origin: "*", // Allow the frontend domain
   methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
   allowedHeaders: [
     "Origin",
