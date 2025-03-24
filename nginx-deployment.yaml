@@ -14,6 +14,6 @@ spec:
         spec:
             containers:
                 - name: nginx
-                  image: gcr.io/socialmapp-f1941/nginx-pod:latest
+                  image: gcr.io/socialmapp-f1941/nginx-pod-dev:latest
                   ports:
                       - containerPort: 80

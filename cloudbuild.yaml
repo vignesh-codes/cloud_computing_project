@@ -1,0 +1,43 @@
+steps:
+  # Build and push DB image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/socialmapp-f1941/db-pod-dev:latest', './db-pod']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/socialmapp-f1941/db-pod-dev:latest']
+
+  # Build and push Web image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/socialmapp-f1941/nginx-pod-dev:latest', './web-pod']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/socialmapp-f1941/nginx-pod-dev:latest']
+
+  # Deploy to GKE
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: 
+      - 'apply'
+      - '-f'
+      - 'db-deployment.yaml'
+      - '-f'
+      - 'db-service.yaml'
+      - '-f'
+      - 'nginx-deployment.yaml'
+      - '-f'
+      - 'nginx-service.yaml'
+      - '-f'
+      - 'nginx-ingress.yaml'
+      - '-f'
+      - 'web1-deployment.yaml'
+      - '-f'
+      - 'web2-deployment.yaml'
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-cluster'
+
+images:
+  - 'gcr.io/socialmapp-f1941/db-pod-dev:latest'
+  - 'gcr.io/socialmapp-f1941/nginx-pod-dev:latest'
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
