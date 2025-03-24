@@ -12,8 +12,6 @@ spec:
             labels:
                 app: db
         spec:
-            nodeSelector:
-                kubernetes.io/hostname: gke-socialmedia-prod-clu-default-pool-cdcc1855-93cl # Replace with the name of Node 3
             containers:
                 - name: db
                   image: gcr.io/socialmapp-f1941/db-pod:latest

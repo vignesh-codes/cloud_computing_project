@@ -10,10 +10,10 @@ spec:
     ingressClassName: nginx
     tls:
         - hosts:
-              - socialm.duckdns.org
-          secretName: socialm-tls # TLS certificate
+              - socialmapp.duckdns.org
+          secretName: socialmapp-tls # TLS certificate
     rules:
-        - host: socialm.duckdns.org
+        - host: socialmapp.duckdns.org
           http:
               paths:
                   # Route API requests to the db-service without rewriting
