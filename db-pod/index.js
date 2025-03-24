@@ -5,28 +5,23 @@ const cors = require("cors");
 const app = express();
 
 const corsOptions = {
-	origin: "*",
+	origin: "https://socialm.duckdns.org", // Explicitly allow your frontend
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-	allowedHeaders: "Content-Type,Authorization",
+	allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+	credentials: true, // Allow credentials (if needed)
 };
 
 app.use(cors(corsOptions));
 
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
-	res.header(
-		"Access-Control-Allow-Methods",
-		"GET, POST, PUT, DELETE, OPTIONS"
-	);
-	res.header(
-		"Access-Control-Allow-Headers",
-		"Content-Type, Authorization"
-	);
-	if (req.method === "OPTIONS") {
-		return res.sendStatus(200); // Handle preflight requests
-	}
-	next();
+// Handle preflight requests explicitly
+app.options("*", (req, res) => {
+	res.header("Access-Control-Allow-Origin", "https://socialm.duckdns.org");
+	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+	res.header("Access-Control-Allow-Credentials", "true");
+	return res.sendStatus(204); // No content
 });
+
 
 app.use(express.json({ limit: "50mb" }));
 
