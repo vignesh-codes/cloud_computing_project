@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
     name: web1-deployment
 spec:
-    replicas: 1
+    replicas: 2
     selector:
         matchLabels:
             app: nginx
@@ -21,5 +21,6 @@ spec:
             containers:
                 - name: nginx
                   image: gcr.io/socialmapp-f1941/nginx-pod:latest
+                  imagePullPolicy: Always
                   ports:
                       - containerPort: 80

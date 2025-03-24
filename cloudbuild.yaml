@@ -29,8 +29,6 @@ steps:
       - 'nginx-ingress.yaml'
       - '-f'
       - 'web1-deployment.yaml'
-      - '-f'
-      - 'web2-deployment.yaml'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=northamerica-northeast2'
       - 'CLOUDSDK_CONTAINER_CLUSTER=socialmedia-prod-cluster'

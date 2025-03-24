@@ -17,6 +17,7 @@ spec:
             containers:
                 - name: db
                   image: gcr.io/socialmapp-f1941/db-pod:latest
+                  imagePullPolicy: Always
                   ports:
                       - containerPort: 8080
                   env:
