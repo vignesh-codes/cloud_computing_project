@@ -1,5 +1,5 @@
 # Development Mode
-FROM node:22
+FROM node:22-alpine
 
 WORKDIR /app/client
 
