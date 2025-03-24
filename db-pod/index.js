@@ -36,6 +36,29 @@ app.options("*", (req, res) => {
 
 app.use(express.json({ limit: "50mb" }));
 
+// Logging the incoming request
+app.use((req, res, next) => {
+  console.log(`Received request: ${req.method} ${req.url}`);
+  console.log("Request headers:", req.headers);
+  // If you want to log the body too (for POST/PUT requests), you could add:
+  console.log("Request body:", req.body); // Be cautious about logging sensitive data
+  next();
+});
+
+// Logging the outgoing response
+app.use((req, res, next) => {
+  // Capture the original `send` function
+  const originalSend = res.send;
+
+  res.send = function (body) {
+    console.log("Response status:", res.statusCode);
+    console.log("Response body:", body); // Be cautious about logging sensitive data
+    originalSend.apply(res, arguments); // Send the response as usual
+  };
+
+  next();
+});
+
 // Initialize Firebase Admin SDK with service account key
 const serviceAccount = require("./firebase-service-account-key.json");
 admin.initializeApp({
