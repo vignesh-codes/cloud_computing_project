@@ -8,7 +8,7 @@ steps:
 
   # Build and push Web image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/socialmapp-f1941/nginx-pod:latest', './nginx-pod']
+    args: ['build', '-t', 'gcr.io/socialmapp-f1941/nginx-pod:latest', './web-pod']
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/socialmapp-f1941/nginx-pod:latest']
