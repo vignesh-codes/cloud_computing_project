@@ -57,6 +57,7 @@ const App = () => {
 			const idToken = await auth.currentUser.getIdToken();
 			const response = await axios.get(`${API_URL}/api/user/profile`, {
 				headers: { Authorization: `Bearer ${idToken}` },
+				withCredentials: true,
 			});
 			setNickname(response.data.nickname || "");
 		} catch (error) {
@@ -71,7 +72,8 @@ const App = () => {
 			await axios.post(
 				`${API_URL}/api/user/nickname`,
 				{ nickname },
-				{ headers: { Authorization: `Bearer ${idToken}` } }
+				{ headers: { Authorization: `Bearer ${idToken}` } },
+				{ withCredentials: true }
 			);
 			setIsEditingNickname(false);
 			fetchPosts(); // Refresh posts to show new nickname
@@ -89,6 +91,7 @@ const App = () => {
 			const idToken = await auth.currentUser.getIdToken();
 			const response = await axios.get(`${API_URL}/api/posts`, {
 				headers: { Authorization: `Bearer ${idToken}` },
+				withCredentials: true,
 			});
 			// Sort posts by createdAt in descending order (newest first)
 			const sortedPosts = response.data.sort(
@@ -113,6 +116,7 @@ const App = () => {
 				`${API_URL}/api/posts/${postId}/comments`,
 				{
 					headers: { Authorization: `Bearer ${idToken}` },
+					withCredentials: true,
 				}
 			);
 			setComments((prev) => ({
@@ -132,6 +136,7 @@ const App = () => {
 				`${API_URL}/api/posts/${postId}/likes`,
 				{
 					headers: { Authorization: `Bearer ${idToken}` },
+					withCredentials: true,
 				}
 			);
 			setPostLikes((prev) => ({
@@ -195,6 +200,7 @@ const App = () => {
 	const submitPost = async (idToken, postData) => {
 		await axios.post(`${API_URL}/api/posts`, postData, {
 			headers: { Authorization: `Bearer ${idToken}` },
+			withCredentials: true,
 		});
 		setText("");
 		setImage(null);
@@ -213,6 +219,7 @@ const App = () => {
 			const idToken = await auth.currentUser.getIdToken();
 			await axios.delete(`${API_URL}/api/posts/${postId}`, {
 				headers: { Authorization: `Bearer ${idToken}` },
+				withCredentials: true,
 			});
 			fetchPosts();
 		} catch (error) {
@@ -236,7 +243,7 @@ const App = () => {
 			await axios.post(
 				`${API_URL}/api/posts/${postId}/comments`,
 				{ text: commentText },
-				{ headers: { Authorization: `Bearer ${idToken}` } }
+				{ headers: { Authorization: `Bearer ${idToken}` }, withCredentials: true }
 			);
 			setNewComments((prev) => ({
 				...prev,
@@ -263,6 +270,7 @@ const App = () => {
 			const idToken = await auth.currentUser.getIdToken();
 			await axios.delete(`${API_URL}/api/comments/${commentId}`, {
 				headers: { Authorization: `Bearer ${idToken}` },
+				withCredentials: true,
 			});
 			// Refresh comments for all posts
 			posts.forEach((post) => fetchComments(post.id));
@@ -283,6 +291,7 @@ const App = () => {
 			if (isLiked) {
 				await axios.delete(`${API_URL}/api/posts/${postId}/like`, {
 					headers: { Authorization: `Bearer ${idToken}` },
+					withCredentials: true,
 				});
 			} else {
 				await axios.post(
