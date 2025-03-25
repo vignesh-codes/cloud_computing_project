@@ -14,7 +14,8 @@ spec:
         spec:
             containers:
                 - name: db
-                  image: gcr.io/socialmapp-f1941/db-pod-dev:latest
+                  image: gcr.io/socialmapp-f1941/db-pod:latest
+                  imagePullPolicy: Always
                   ports:
                       - containerPort: 8080
                   env:
@@ -22,8 +23,8 @@ spec:
                         value: "/app/key.json"
                   volumeMounts:
                       - name: service-account-credentials
-                        mountPath: "/app/key.json"
-                        subPath: key.json
+                        mountPath: "/app/firebase-service-account-key.json"
+                        subPath: firebase-service-account-key.json
             volumes:
                 - name: service-account-credentials
                   secret:
