@@ -1,26 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: web1-deployment
+  name: web1-deployment
 spec:
-    replicas: 2
-    selector:
-        matchLabels:
-            app: nginx
-            role: web
-            instance: web1
-    template:
-        metadata:
-            labels:
-                app: nginx
-                role: web
-                instance: web1
-        spec:
-            nodeSelector:
-                kubernetes.io/hostname: gke-socialmedia-prod-clu-default-pool-02bf8583-0fv2 # Replace with the name of Node 1 (get from `kubectl get nodes`)
-            containers:
-                - name: nginx
-                  image: gcr.io/socialmapp-f1941/nginx-pod:latest
-                  imagePullPolicy: Always
-                  ports:
-                      - containerPort: 80
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+      role: web
+      instance: web1
+  template:
+    metadata:
+      labels:
+        app: nginx
+        role: web
+        instance: web1
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: instance
+                      operator: In
+                      values:
+                        - web1
+                topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: nginx
+          image: gcr.io/socialmapp-f1941/nginx-pod:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

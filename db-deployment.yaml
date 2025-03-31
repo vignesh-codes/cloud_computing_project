@@ -1,33 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: db-deployment
+  name: db-deployment
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: db
-    template:
-        metadata:
-            labels:
-                app: db
-        spec:
-            nodeSelector:
-                kubernetes.io/hostname: gke-socialmedia-prod-clu-default-pool-cdcc1855-93cl # Replace with the name of Node 3
-            containers:
-                - name: db
-                  image: gcr.io/socialmapp-f1941/db-pod:latest
-                  imagePullPolicy: Always
-                  ports:
-                      - containerPort: 8080
-                  env:
-                      - name: GOOGLE_APPLICATION_CREDENTIALS
-                        value: "/app/key.json"
-                  volumeMounts:
-                      - name: service-account-credentials
-                        mountPath: "/app/firebase-service-account-key.json"
-                        subPath: firebase-service-account-key.json
-            volumes:
-                - name: service-account-credentials
-                  secret:
-                      secretName: db-service-account-key
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - db
+                topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: db
+          image: gcr.io/socialmapp-f1941/db-pod:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/app/key.json"
+          volumeMounts:
+            - name: service-account-credentials
+              mountPath: "/app/firebase-service-account-key.json"
+              subPath: firebase-service-account-key.json
+      volumes:
+        - name: service-account-credentials
+          secret:
+            secretName: db-service-account-key
