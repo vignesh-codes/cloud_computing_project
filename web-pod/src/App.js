@@ -350,7 +350,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<div className="user-header">
-				<h1>Welcome, {nickname || user.email}!</h1>
+				<h1>Hello! Welcome, {nickname || user.email}!</h1>
 				<div className="nickname-section">
 					{isEditingNickname ? (
 						<div className="nickname-edit">
